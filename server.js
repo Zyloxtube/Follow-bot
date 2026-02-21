@@ -2,10 +2,12 @@ const express = require('express');
 const axios = require('axios');
 const { HttpsProxyAgent } = require('https-proxy-agent');
 const cors = require('cors');
+const path = require('path');
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(path.join(__dirname))); // لخدمة الملفات الثابتة
 
 let botState = {
     isRunning: false,
@@ -16,6 +18,11 @@ let botState = {
 };
 
 let clients = [];
+
+// الصفحة الرئيسية
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
 // Server-Sent Events للتواصل المباشر
 app.get('/events', (req, res) => {
@@ -304,11 +311,14 @@ app.get('/status', (req, res) => {
 
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log('='.repeat(50));
-    console.log('🚀 سيرفر روبوت روبلوكس شغال على http://localhost:3000');
-    console.log('📝 طريقة التشغيل:');
-    console.log('1. شغل السيرفر: node server.js');
-    console.log('2. افتح index.html في المتصفح');
-    console.log('3. أضف الكوكيز الحقيقية وابدأ');
-    console.log('='.repeat(50));
+    console.log('='.repeat(60));
+    console.log('🚀 سيرفر روبوت روبلوكس شغال على:');
+    console.log(`📱 http://localhost:${PORT}`);
+    console.log('='.repeat(60));
+    console.log('📝 طريقة الاستخدام:');
+    console.log('1. افتح الرابط http://localhost:3000 في المتصفح');
+    console.log('2. أضف الكوكيز الحقيقية .ROBLOSECURITY');
+    console.log('3. أدخل معرف المستخدم المستهدف');
+    console.log('4. اضغط "بدء البوت"');
+    console.log('='.repeat(60));
 });
