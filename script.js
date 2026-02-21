@@ -1,4 +1,4 @@
-// script.js - النسخة الحقيقية التي تعمل مع API روبلوكس
+// script.js - النسخة الحقيقية مع localhost
 
 let isRunning = false;
 let shouldStop = false;
@@ -79,7 +79,7 @@ function updateTimestamp() {
 }
 
 function checkServerConnection() {
-    fetch('http://localhost:3000/status')
+    fetch('/status')
         .then(response => response.json())
         .then(data => {
             document.getElementById('statusText').className = 'online';
@@ -122,7 +122,7 @@ function startBot() {
     }
 
     // إرسال الطلب إلى السيرفر
-    fetch('http://localhost:3000/start', {
+    fetch('/start', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ function stopBot() {
         return;
     }
 
-    fetch('http://localhost:3000/stop', {
+    fetch('/stop', {
         method: 'POST'
     })
     .then(response => response.json())
@@ -187,7 +187,7 @@ function connectToServerSentEvents() {
         eventSource.close();
     }
 
-    eventSource = new EventSource('http://localhost:3000/events');
+    eventSource = new EventSource('/events');
 
     eventSource.onmessage = function(event) {
         const data = JSON.parse(event.data);
@@ -227,9 +227,6 @@ function connectToServerSentEvents() {
         }
     };
 }
-
-// دالة مساعدة للتأخير
-const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
 
 // جعل الدوال متاحة عالمياً
 window.addCookieEntry = addCookieEntry;
